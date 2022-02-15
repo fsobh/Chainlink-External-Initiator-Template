@@ -6,10 +6,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 //Define some constants
-const CHAINLINK_ACCESS_KEY = "eccd041d5cba479299d49da948a51163"
-const CHAINLINK_ACCESS_SECRET = "2UyVhtSMqVOanXAfYRBj/9Vl8RGjSZCrqhOEZBxeJOVj6FXlgKX9HXbsjPfvY23b"
-const CHAINLINK_IP = "https://18.221.103.144/jobs"
+const CHAINLINK_ACCESS_KEY = "4135b2fd3d0f48289313f4dafb27b637"
+const CHAINLINK_ACCESS_SECRET = "MG2ExUNQ3AcGtbbBobQwrFkx5g2OBLC5Nn8Y0Ridr4YQnFiZ7tYTlMdt8ChpxVhU"
+const CHAINLINK_IP = "18.221.103.144"
 
+//test2 ║ https://18.221.103.144:8080/jobs ║ 7162771605dd46e092c3bdb7c2dc0e8a ║ HsgGs0SG7joFkbt66wyqFRdEIZqp0fxQ1M32Ik9/UztGV24rm6p/9iGov4bh0Xud ║ p8b3gto+SzcaJkVAlQyCByqJLEAZuLJoF72+9fRQDOEORgG+DuhDhMH2HGQ17uHO ║ I5tHL6PU+DKqJNAP36xo3YtV0TzIzm65mPrgmEgVhnSoff5a2j5CINsT2bHNasfe
+
+//test3 ║ https://av6fn434i1.execute-api.us-east-2.amazonaws.com/dev/ ║ 4135b2fd3d0f48289313f4dafb27b637 ║ MG2ExUNQ3AcGtbbBobQwrFkx5g2OBLC5Nn8Y0Ridr4YQnFiZ7tYTlMdt8ChpxVhU ║ qylbTiWdYv36CSOwW7YivB2cbnNBqSWq3OOhljhXQhV1rW4CYTakYVRxXpiaMMmd ║ nc5QFpbucP2wf5q7U7aC+5Hez/vfH2mBRoUzJPklQBSR5CsGm00KuZBCwfyJBV31
 var job_ids = []
 
 /** Health check endpoint */
@@ -34,7 +37,7 @@ app.get("/fuk", function(req, res) {
     res.send({'temp': callChainlinkNode()})
 });
 /** Function to call the chainlink node and run a job */
-function callChainlinkNode(job_id = 'a83562005f064d5aa88291f85bc139ef') {
+function callChainlinkNode(job_id ) {
     var url_addon = '/v2/specs/'+ job_id + '/runs'
     request.post({
         headers: {'content-type' : 'application/json', 'X-Chainlink-EA-AccessKey': CHAINLINK_ACCESS_KEY,

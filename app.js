@@ -20,7 +20,7 @@ app.get('/', function (req, res) {
 })
 
 /** Called by chainlink node when a job is created using this external initiator */
-app.post('/jobs', function (req, res) {
+app.post('/', function (req, res) {
     //Recieves info from node about the job id
     console.log("fooker2",req.body)
     job_ids.push(req.body.jobId) //save the job id

@@ -6,11 +6,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 //Define some constants
-const CHAINLINK_ACCESS_KEY = "759ddd9987374a13909481de152b3fed"
-const CHAINLINK_ACCESS_SECRET = "J9YYutWmAbSKCiXNBcAHKSsDOAMpYQR3qO1vBoDY3l0IEf+yZzWXpBDdMXRu1cbA"
-const CHAINLINK_IP = "http://18.221.103.144"
+const CHAINLINK_ACCESS_KEY = "57f2083190814bfcb8d7ed7250391562"
+const CHAINLINK_ACCESS_SECRET = "HEYiVHpLoY9Uj9AtLbFdg0nTaJVr3JeUxw3jACbpgjpHTjgV43TEvHlRWgjXpGNB"
+const CHAINLINK_IP = "http://3.145.150.81:6688/v2/jobs/"
 
-//final-test-2 ║ https://av6fn434i1.execute-api.us-east-2.amazonaws.com/dev ║ 759ddd9987374a13909481de152b3fed ║ J9YYutWmAbSKCiXNBcAHKSsDOAMpYQR3qO1vBoDY3l0IEf+yZzWXpBDdMXRu1cbA ║ UqRfIwGZzqIlGno2thaAYltdtqcG2FMUEWKDry4DXlmfBU7wzJ2dm1X7N5/gw16i ║ kb4OhdVDql7ju3cUIkajENIaezIzXadjVz48shkP4Gvl3SCUBlNCuy/X3F2qvcfp
+//  due-dilly-hook ║ https://av6fn434i1.execute-api.us-east-2.amazonaws.com/dev ║ 57f2083190814bfcb8d7ed7250391562 ║ HEYiVHpLoY9Uj9AtLbFdg0nTaJVr3JeUxw3jACbpgjpHTjgV43TEvHlRWgjXpGNB ║ yb1qDrzbd29EDaArPV9BbhgsXhLdut0+IWLB2uVeMjhhclF10Ag/CiCC4oF/9au4 ║ Y1yCZIAxkiWYYNNAdxs3s0McSBfzTQKhfjqsxBaICmnbTqwSl3U8i8R8F6/ElDQS
 var job_ids = []
 
 /** Health check endpoint */
@@ -38,12 +38,12 @@ app.get("/fuk", function(req, res) {
 });
 /** Function to call the chainlink node and run a job */
 function callChainlinkNode(job_id ) {
-    var url_addon = '/v2/specs/'+ job_id + '/runs'
+    var url_addon = `${job_id}/runs`
     request.post({
         headers: {'content-type' : 'application/json', 'X-Chainlink-EA-AccessKey': CHAINLINK_ACCESS_KEY,
         'X-Chainlink-EA-Secret': CHAINLINK_ACCESS_SECRET},
         url:     CHAINLINK_IP+url_addon,
-        body:    ""
+        body:    {verified : true}
       }, function(error, response, body){
         console.log(response)
         if(error)

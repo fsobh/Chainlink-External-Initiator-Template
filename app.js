@@ -6,35 +6,35 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 //Define some constants
-const CHAINLINK_ACCESS_KEY = "4135b2fd3d0f48289313f4dafb27b637"
-const CHAINLINK_ACCESS_SECRET = "MG2ExUNQ3AcGtbbBobQwrFkx5g2OBLC5Nn8Y0Ridr4YQnFiZ7tYTlMdt8ChpxVhU"
-const CHAINLINK_IP = "18.221.103.144"
+const CHAINLINK_ACCESS_KEY = "759ddd9987374a13909481de152b3fed"
+const CHAINLINK_ACCESS_SECRET = "J9YYutWmAbSKCiXNBcAHKSsDOAMpYQR3qO1vBoDY3l0IEf+yZzWXpBDdMXRu1cbA"
+const CHAINLINK_IP = "http://18.221.103.144"
 
-//test2 ║ https://18.221.103.144:8080/jobs ║ 7162771605dd46e092c3bdb7c2dc0e8a ║ HsgGs0SG7joFkbt66wyqFRdEIZqp0fxQ1M32Ik9/UztGV24rm6p/9iGov4bh0Xud ║ p8b3gto+SzcaJkVAlQyCByqJLEAZuLJoF72+9fRQDOEORgG+DuhDhMH2HGQ17uHO ║ I5tHL6PU+DKqJNAP36xo3YtV0TzIzm65mPrgmEgVhnSoff5a2j5CINsT2bHNasfe
-
-//test3 ║ https://av6fn434i1.execute-api.us-east-2.amazonaws.com/dev/ ║ 4135b2fd3d0f48289313f4dafb27b637 ║ MG2ExUNQ3AcGtbbBobQwrFkx5g2OBLC5Nn8Y0Ridr4YQnFiZ7tYTlMdt8ChpxVhU ║ qylbTiWdYv36CSOwW7YivB2cbnNBqSWq3OOhljhXQhV1rW4CYTakYVRxXpiaMMmd ║ nc5QFpbucP2wf5q7U7aC+5Hez/vfH2mBRoUzJPklQBSR5CsGm00KuZBCwfyJBV31
+//final-test-2 ║ https://av6fn434i1.execute-api.us-east-2.amazonaws.com/dev ║ 759ddd9987374a13909481de152b3fed ║ J9YYutWmAbSKCiXNBcAHKSsDOAMpYQR3qO1vBoDY3l0IEf+yZzWXpBDdMXRu1cbA ║ UqRfIwGZzqIlGno2thaAYltdtqcG2FMUEWKDry4DXlmfBU7wzJ2dm1X7N5/gw16i ║ kb4OhdVDql7ju3cUIkajENIaezIzXadjVz48shkP4Gvl3SCUBlNCuy/X3F2qvcfp
 var job_ids = []
 
 /** Health check endpoint */
 app.get('/', function (req, res) {
+    console.log("fooker",req)
    res.sendStatus(200);
 })
 
 /** Called by chainlink node when a job is created using this external initiator */
 app.post('/jobs', function (req, res) {
     //Recieves info from node about the job id
+    console.log("fooker2",req.body)
     job_ids.push(req.body.jobId) //save the job id
     res.sendStatus(200);
  })
 
 /** Called by chainlink node when running the job */ 
 app.get("/temp", function(req, res) {
-    res.send({'temp': 42})
+    res.send({'temp': job_ids})
 });
 
 app.get("/fuk", function(req, res) {
-    callChainlinkNode()
-    res.send({'temp': callChainlinkNode()})
+    
+    res.send({'temp': callChainlinkNode(job_ids[0])})
 });
 /** Function to call the chainlink node and run a job */
 function callChainlinkNode(job_id ) {

@@ -1,10 +1,44 @@
-service: sample-app
+service: sample-app #cl-external-initiator-template
+
+frameworkVersion: '3'
+	
+useDotenv: true
+
 provider:
   name: aws
   runtime: nodejs14.x
-  stage: dev
+  lambdaHashingVersion: 20201221
   region: us-east-2
-  memorySize: 256
+  memorySize: 2524
+  logRetentionInDays: 7
+  stage: ${opt:stage, self:custom.defaultStage}
+  environment:
+    NODE_ENV: ${self:provider.stage}
+    EI_TABLE: ${self:custom.JobList}
+    CHAINLINK_ACCESS_KEY: ${env:CHAINLINK_ACCESS_KEY}   
+    CHAINLINK_ACCESS_SECRET: ${env:CHAINLINK_ACCESS_SECRET} 
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "logs:*"
+      Resource: "*" 
+    - Effect: "Allow"
+      Action:
+        - "dynamodb:*"
+      Resource: "*"
+    - Effect: "Allow"
+      Action: "ssm:GetParameters"
+      Resource: "*"
+    - Effect: "Allow"
+      Action: "kms:Decrypt"
+      Resource: "*" 
+
+custom:
+  serviceName: EI_TEMPLATE
+  defaultStage: dev
+  JobList: ${self:custom.serviceName}-${self:provider.stage}-saved-jobs
+
+
 functions:
   app:
     handler: app/app.handler
@@ -17,3 +51,44 @@ functions:
           path: /{proxy+}
           method: ANY
           cors: true
+
+# Database Setup
+resources:
+    Resources:
+        # - Contact table
+        ContactTable:
+            Type: "AWS::DynamoDB::Table"
+            Properties:
+                TableName: ${self:custom.JobList}
+                AttributeDefinitions:
+                    - AttributeName: JOB_ID
+                      AttributeType: S
+                    - AttributeName: JOB_NAME
+                      AttributeType: S
+                    - AttributeName: EI_NAME
+                      AttributeType: S
+                    - AttributeName: NODE_IP
+                      AttributeType: S   
+                KeySchema:
+                    - AttributeName: JOB_ID
+                      KeyType: HASH
+                GlobalSecondaryIndexes:
+                    - IndexName: NAME_IDX
+                      KeySchema:
+                          - AttributeName: JOB_NAME
+                            KeyType: HASH
+                      Projection:
+                          ProjectionType: ALL
+                    - IndexName: EI_IDX
+                      KeySchema:
+                          - AttributeName: EI_NAME
+                            KeyType: HASH
+                      Projection:
+                          ProjectionType: ALL
+                    - IndexName: IP_IDX
+                      KeySchema:
+                          - AttributeName: NODE_IP
+                            KeyType: HASH
+                      Projection:
+                          ProjectionType: ALL       
+                BillingMode: PAY_PER_REQUEST

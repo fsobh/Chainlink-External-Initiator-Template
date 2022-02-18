@@ -6,7 +6,6 @@ var app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-//Define some constants
 const CHAINLINK_ACCESS_KEY = process.env.CHAINLINK_ACCESS_KEY
 const CHAINLINK_ACCESS_SECRET = process.env.CHAINLINK_ACCESS_SECRET
 
@@ -58,7 +57,7 @@ app.post('/', async function  (req, res) {
 
 app.get("/test", async function  (req, res) {
     
-    const JOB = await JobAPI.GetBy('name','job-4')
+    const JOB = await JobAPI.GetBy('name','job-4');
 
     if(JOB && JOB.JOB_ID && JOB.NODE_IP){
        await callChainlinkNode(JOB)
@@ -69,7 +68,6 @@ app.get("/test", async function  (req, res) {
 });
 
 
-//https://av6fn434i1.execute-api.us-east-2.amazonaws.com/dev/test
 
 /** Function to call the chainlink node and run a job */
 async function callChainlinkNode(job) {
@@ -83,21 +81,21 @@ async function callChainlinkNode(job) {
     console.log(CHAINLINK_ACCESS_KEY,CHAINLINK_ACCESS_SECRET,URL)
     
     let data = {verified : true}
-    await axios.post( URL, {
-        headers: {
 
-            'content-type' : 'application/json',
+    await axios.post( URL, data,
+        {
+         headers : {
+            'Content-Type': 'application/json',
             'X-Chainlink-EA-AccessKey': CHAINLINK_ACCESS_KEY,
             'X-Chainlink-EA-Secret': CHAINLINK_ACCESS_SECRET
-        },
-       data
-    })      
+         }
+        })      
     .then((response) => {
         console.log(response.data)
         return true
     })
     .catch((error) => {
-        console.log(error.message)
+        console.log(error)
         return false
     })
 

@@ -1,4 +1,4 @@
-service: sample-app #cl-external-initiator-template
+service: cl-external-initiator-template
 
 frameworkVersion: '3'
 	

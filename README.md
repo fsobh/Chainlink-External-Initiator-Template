@@ -1,6 +1,6 @@
 <p align="center">
-    <a href="/#" title="OpenRPG">
-        <img  height=270px src="https://cryptologos.cc/logos/chainlink-link-logo.png?v=021" alt="Open RPG">
+    <a href="https://chain.link/" title="chainlink">
+        <img  height=230px src="https://cryptologos.cc/logos/chainlink-link-logo.png?v=021" alt="chainlink logo">
     </a>
 </p>
 

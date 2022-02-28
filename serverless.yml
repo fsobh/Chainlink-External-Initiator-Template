@@ -1,4 +1,4 @@
-service: cl-external-initiator-template
+service: sample-app
 
 frameworkVersion: '3'
 	
@@ -40,6 +40,9 @@ provider:
     - Effect: "Allow"
       Action: "ses:ListIdentities"
       Resource: "*" 
+    - Effect: "Allow"
+      Action: "ses:SendEmail"
+      Resource: "*"
 custom:
   serviceName: EI_TEMPLATE
   defaultStage: dev

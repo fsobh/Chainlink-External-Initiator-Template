@@ -1,7 +1,7 @@
-var express = require('express');
 var axios = require("axios")
-const serverless = require('serverless-http');
 const JobAPI = require("./JobAPI")
+var express = require('express');
+const serverless = require('serverless-http');
 var app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -39,7 +39,7 @@ app.get('/', async function (req, res) {
                 stack : error.stack,
                 error : String(error)
             });
-        res.send({'error' : error}).sendStatus(500);
+        res.send({'error' : error})
     }
 
 })
@@ -55,7 +55,7 @@ app.post('/', async function  (req, res) {
     
 
     if (!request.jobId)
-        throw new Error("Job ID Required");
+        throw new Error("Job ID is Required");
 
     if(!request.type)
         throw new Error("Initiator name was not Provided");
@@ -81,12 +81,12 @@ app.post('/', async function  (req, res) {
     res.sendStatus(200);
 
 } catch (error) {
-    await Logger.error(error.message,3,
+    await Logger.error(error.message,5,
         {
             stack : error.stack,
             error : String(error)
         });
-      res.send({'error' : error}).sendStatus(500);
+      res.sendStatus(500);
 }
  })
 

@@ -9,14 +9,19 @@ provider:
   runtime: nodejs14.x
   lambdaHashingVersion: 20201221
   region: us-east-2
-  memorySize: 2524
+  memorySize: 524
   logRetentionInDays: 7
   stage: ${opt:stage, self:custom.defaultStage}
   environment:
     NODE_ENV: ${self:provider.stage}
     EI_TABLE: ${self:custom.JobList}
     CHAINLINK_ACCESS_KEY: ${env:CHAINLINK_ACCESS_KEY}   
-    CHAINLINK_ACCESS_SECRET: ${env:CHAINLINK_ACCESS_SECRET} 
+    CHAINLINK_ACCESS_SECRET: ${env:CHAINLINK_ACCESS_SECRET}
+    SOURCE_EMAIL: ${env:SOURCE_EMAIL}
+    RECIEVER_EMAIL_1: ${env:RECIEVER_EMAIL_1}
+    SERVICE_NAME: ${env:SERVICE_NAME} 
+    KEY: ${env:KEY}
+    SECRET: ${env:SECRET} 
   iamRoleStatements:
     - Effect: "Allow"
       Action:
@@ -32,7 +37,9 @@ provider:
     - Effect: "Allow"
       Action: "kms:Decrypt"
       Resource: "*" 
-
+    - Effect: "Allow"
+      Action: "ses:ListIdentities"
+      Resource: "*" 
 custom:
   serviceName: EI_TEMPLATE
   defaultStage: dev
